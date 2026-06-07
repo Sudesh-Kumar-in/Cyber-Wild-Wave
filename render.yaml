@@ -1,0 +1,19 @@
+services:
+  - type: worker
+    name: telegram-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_IDS
+        sync: false
+      - key: DATABASE_PATH
+        value: database/bot.db
+      - key: FREE_DAILY_SEARCHES
+        value: "5"
+      - key: RATE_LIMIT_SECONDS
+        value: "3"
+      - key: CACHE_TTL
+        value: "300"
