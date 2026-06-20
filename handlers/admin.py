@@ -41,15 +41,15 @@ SEARCH_TYPE_LABELS = {
 }
 
 ADMIN_SUBMENU_BUTTONS = {
-    "🛠 Bot Control",    "💎 Grant Premium",  "🚫 Revoke Premium",
-    "❌ Remove User",    "👥 Users Summary",  "📊 Live Statistics",
-    "📢 Broadcast",      "📋 Premium Users",  "🔄 Lifetime Update",
-    "🧹 Clear Database", "🔐 Ban User",        "✅ Unban User",
-    "⚡ Server Status",  "📂 Export Users",   "📝 Logs",
+    "🛠 BOT CONTROL",    "💎 GRANT PREMIUM",  "🚫 REVOKE PREMIUM",
+    "❌ REMOVE USER",    "👥 USERS SUMMARY",  "📊 LIVE STATISTICS",
+    "📢 BROADCAST",      "📋 PREMIUM USERS",  "🔄 LIFETIME UPDATE",
+    "🧹 CLEAR DATABASE", "🔐 BAN USER",        "✅ UNBAN USER",
+    "⚡ SERVER STATUS",  "📂 EXPORT USERS",   "📝 LOGS",
 }
 
 # Full set of buttons routed to the admin handler (entry + submenu + back)
-ADMIN_PANEL_BUTTONS = ADMIN_SUBMENU_BUTTONS | {"👑 Admin Panel", "🔙 Back"}
+ADMIN_PANEL_BUTTONS = ADMIN_SUBMENU_BUTTONS | {"👑 ADMIN PANEL", "🔙 BACK"}
 
 
 def is_admin(user_id: int) -> bool:
@@ -544,7 +544,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
     user = update.effective_user
     text = (update.message.text or "").strip()
 
-    if text == "🔙 Back":
+    if text == "🔙 BACK":
         # Return to main keyboard (clean user+admin panel button only)
         await update.message.reply_text(
             "🏠 <b>Main Menu</b>\n\n📲 Use the buttons below ↓",
@@ -553,7 +553,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
         )
         return
 
-    if text == "👑 Admin Panel":
+    if text == "👑 ADMIN PANEL":
         # Open the admin submenu keyboard
         stats = await db.get_stats()
         maint = "🔴 ON" if cfg.MAINTENANCE_MODE else "🟢 OFF"
@@ -573,7 +573,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
         )
         return
 
-    if text == "🛠 Bot Control":
+    if text == "🛠 BOT CONTROL":
         maint = "🔴 ON" if cfg.MAINTENANCE_MODE else "🟢 OFF"
         await update.message.reply_text(
             f"🛠 <b>BOT CONTROL</b>\n\n"
@@ -584,7 +584,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=bot_control_keyboard()
         )
 
-    elif text == "💎 Grant Premium":
+    elif text == "💎 GRANT PREMIUM":
         set_pending_action(user.id, "admin_grant")
         await update.message.reply_text(
             "💎 <b>GRANT PREMIUM</b>\n\nSend in format:\n<code>USER_ID DAYS</code>\n\nExample:\n<code>123456789 30</code>",
@@ -592,7 +592,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "🚫 Revoke Premium":
+    elif text == "🚫 REVOKE PREMIUM":
         set_pending_action(user.id, "admin_revoke")
         await update.message.reply_text(
             "🚫 <b>REVOKE PREMIUM</b>\n\nSend the <b>User ID</b> to revoke premium:",
@@ -600,7 +600,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "❌ Remove User":
+    elif text == "❌ REMOVE USER":
         set_pending_action(user.id, "admin_del_user")
         await update.message.reply_text(
             "❌ <b>REMOVE USER</b>\n\nSend the <b>User ID</b> to delete from database:",
@@ -608,7 +608,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "👥 Users Summary":
+    elif text == "👥 USERS SUMMARY":
         stats = await db.get_stats()
         users = await db.get_all_users()
         sample = "\n".join(
@@ -626,7 +626,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "📊 Live Statistics":
+    elif text == "📊 LIVE STATISTICS":
         stats = await db.get_stats()
         await update.message.reply_text(
             f"📊 <b>LIVE STATISTICS</b>\n"
@@ -644,7 +644,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "📢 Broadcast":
+    elif text == "📢 BROADCAST":
         set_pending_action(user.id, "admin_broadcast")
         await update.message.reply_text(
             "📢 <b>BROADCAST</b>\n\nSend the message to broadcast to all users.\nYou can send text, photo, or video.",
@@ -652,7 +652,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "📋 Premium Users":
+    elif text == "📋 PREMIUM USERS":
         plist = await db.get_premium_users_list()
         if not plist:
             text_out = "📋 <b>Premium Users</b>\n\nNo active premium users.\n\n🔥 <b>CYBER WILD WAVE</b>"
@@ -669,7 +669,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "🔄 Lifetime Update":
+    elif text == "🔄 LIFETIME UPDATE":
         report = await db.get_premium_time_report()
         info   = await db.get_freeze_info()
         freeze_line = "⏸ <b>FROZEN</b>" if info["frozen"] else "▶ Running"
@@ -697,7 +697,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=freeze_keyboard(info["frozen"])
         )
 
-    elif text == "🧹 Clear Database":
+    elif text == "🧹 CLEAR DATABASE":
         from keyboards.admin_kb import confirm_keyboard as ckb
         await update.message.reply_text(
             "🧹 <b>CLEAR DATABASE</b>\n\n⚠️ This will delete ALL data. Are you sure?\n\n🔥 <b>CYBER WILD WAVE</b>",
@@ -705,7 +705,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=ckb("adm_confirm_clear", "adm_close")
         )
 
-    elif text == "🔐 Ban User":
+    elif text == "🔐 BAN USER":
         set_pending_action(user.id, "admin_ban")
         await update.message.reply_text(
             "🔐 <b>BAN USER</b>\n\nSend:\n<code>USER_ID reason</code>",
@@ -713,7 +713,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "✅ Unban User":
+    elif text == "✅ UNBAN USER":
         set_pending_action(user.id, "admin_unban")
         await update.message.reply_text(
             "✅ <b>UNBAN USER</b>\n\nSend the <b>User ID</b> to unban:",
@@ -721,10 +721,10 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
             reply_markup=admin_submenu_keyboard(),
         )
 
-    elif text == "⚡ Server Status":
+    elif text == "⚡ SERVER STATUS":
         await _show_server_status(update.message, ctx, is_message=True)
 
-    elif text == "📂 Export Users":
+    elif text == "📂 EXPORT USERS":
         users = await db.get_all_users()
         lines = ["USER_ID | USERNAME | NAME | JOINED | PREMIUM | SEARCHES"]
         for u in users:
@@ -744,7 +744,7 @@ async def handle_admin_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TY
         )
         os.remove(tmp)
 
-    elif text == "📝 Logs":
+    elif text == "📝 LOGS":
         logs = await db.get_search_logs(limit=10)
         await update.message.reply_text(
             _build_logs_text(logs), parse_mode=ParseMode.HTML,
