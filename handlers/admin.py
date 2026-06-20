@@ -907,3 +907,55 @@ async def handle_admin_text(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
             parse_mode=ParseMode.HTML,
             reply_markup=admin_submenu_keyboard(),
         )
+
+
+# ── /apistatus — admin-only live API diagnostics ──────────────────────────────
+
+async def apistatus_command(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    """
+    Admin-only command: live-tests every configured API endpoint and reports
+    which variables are set, which are missing, and whether each URL responds.
+    Usage: /apistatus
+    """
+    user = update.effective_user
+    if not user or user.id not in ADMIN_IDS:
+        return
+
+    from services.api_service import test_api_connection
+
+    endpoints = [
+        ("📱 Number",   cfg.API_NUMBER_LOOKUP,   "9999999999"),
+        ("📞 Telegram", cfg.API_TELEGRAM_LOOKUP,  "test"),
+        ("🪪 Aadhaar",  cfg.API_AADHAAR_LOOKUP,   "999999999999"),
+        ("👨‍👩‍👧‍👦 Family",  cfg.API_FAMILY_LOOKUP,   "test"),
+        ("📍 Pincode",  cfg.API_PINCODE_LOOKUP,   "110001"),
+        ("🏦 IFSC",     cfg.API_IFSC_LOOKUP,      "SBIN0001234"),
+        ("🚗 Vehicle",  cfg.API_VEHICLE_LOOKUP,   "DL1CAB1234"),
+    ]
+
+    lines = [
+        "<b>🔧 API Status Report</b>",
+        f"API_KEY set: {'✅ Yes' if cfg.API_KEY else '❌ No'}",
+        "",
+    ]
+
+    for label, url_template, test_val in endpoints:
+        if not url_template:
+            lines.append(f"{label}: ❌ <i>Not configured (env var missing)</i>")
+        else:
+            import re as _re
+            masked = _re.sub(
+                r'(key=|apikey=|api_key=|token=)[^&\s]+',
+                r'\1***', url_template, flags=_re.IGNORECASE
+            )
+            ok, msg = await test_api_connection(url_template, test_val)
+            icon = "✅" if ok else "❌"
+            lines.append(f"{label}: {icon}")
+            lines.append(f"  <code>{masked[:90]}</code>")
+            lines.append(f"  <i>{msg[:90]}</i>")
+        lines.append("")
+
+    await update.message.reply_text(
+        "\n".join(lines) + "🔥 <b>CYBER WILD WAVE</b>",
+        parse_mode=ParseMode.HTML,
+    )
