@@ -3,6 +3,8 @@ API service — uses a single persistent aiohttp session with connection
 pooling so each lookup reuses existing TCP/TLS connections instead of
 creating a new handshake per request.
 """
+from __future__ import annotations
+
 import aiohttp
 import asyncio
 import logging
