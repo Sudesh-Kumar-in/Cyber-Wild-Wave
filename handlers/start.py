@@ -269,8 +269,8 @@ async def credits_callback(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 # ── ReplyKeyboard button handler — user panel ─────────────────────────────────
 
 USER_PANEL_BUTTONS = {
-    "🔍 Search", "💎 Premium", "👤 My Account",
-    "📜 Remaining Credit", "ℹ️ Help", "🔄 Refresh",
+    "🔍 SEARCH", "💎 PREMIUM", "👤 MY ACCOUNT",
+    "📜 REMAINING CREDIT", "ℹ️ HELP", "🔄 REFRESH",
 }
 
 
@@ -278,7 +278,7 @@ async def handle_user_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TYP
     user = update.effective_user
     text = (update.message.text or "").strip()
 
-    if text == "🔍 Search":
+    if text == "🔍 SEARCH":
         is_adm = user.id in ADMIN_IDS
         sent = await update.message.reply_text(
             "╔══════════════════════════╗\n"
@@ -291,7 +291,7 @@ async def handle_user_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TYP
         track(ctx, sent)
         ctx.user_data["_kbd_mode"] = "search"
 
-    elif text == "💎 Premium":
+    elif text == "💎 PREMIUM":
         from handlers.premium import PREMIUM_MENU_TEXT
         sent = await update.message.reply_text(
             PREMIUM_MENU_TEXT, parse_mode=ParseMode.HTML,
@@ -299,7 +299,7 @@ async def handle_user_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TYP
         )
         track(ctx, sent)
 
-    elif text == "👤 My Account":
+    elif text == "👤 MY ACCOUNT":
         row       = await db.get_user(user.id)
         premium   = await db.is_premium(user.id)
         prem_info = await db.get_premium_info(user.id)
@@ -349,7 +349,7 @@ async def handle_user_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TYP
         )
         track(ctx, sent)
 
-    elif text == "📜 Remaining Credit":
+    elif text == "📜 REMAINING CREDIT":
         premium = await db.is_premium(user.id)
         if premium:
             credit_text = (
@@ -383,7 +383,7 @@ async def handle_user_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TYP
         )
         track(ctx, sent)
 
-    elif text == "ℹ️ Help":
+    elif text == "ℹ️ HELP":
         sent = await update.message.reply_text(
             HELP_TEXT.format(free_limit=FREE_DAILY_SEARCHES),
             parse_mode=ParseMode.HTML,
@@ -391,6 +391,6 @@ async def handle_user_panel_button(update: Update, ctx: ContextTypes.DEFAULT_TYP
         )
         track(ctx, sent)
 
-    elif text == "🔄 Refresh":
+    elif text == "🔄 REFRESH":
         ctx.user_data["_kbd_mode"] = "main"
         await _send_welcome(update.message, user, ctx)
