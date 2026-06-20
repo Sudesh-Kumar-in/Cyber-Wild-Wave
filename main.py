@@ -63,12 +63,12 @@ async def handle_all_text(update: Update, ctx):
     text = (update.message.text or "").strip()
 
     # ── 1. Universal "🔙 Back" — works from any submenu ────────────────────────
-    if text == "🔙 Back":
+    if text == "🔙 BACK":
         await _handle_back(update, ctx)
         return
 
     # ── 2. Admin entry-point and submenu buttons ──────────────────────────────
-    if is_admin(user.id) and text == "👑 Admin Panel":
+    if is_admin(user.id) and text == "👑 ADMIN PANEL":
         ctx.user_data["_kbd_mode"] = "admin"
         await handle_admin_panel_button(update, ctx)
         return
@@ -118,24 +118,27 @@ async def _heartbeat_loop():
 
 
 async def post_init(app):
-    await db.init_db()
+    try:
+        await db.init_db()
 
-    from services.api_service import get_session, log_api_config
-    log_api_config()
-    await get_session()
+        from services.api_service import get_session, log_api_config
+        log_api_config()
+        await get_session()
 
-    last_hb = await db.get_setting("last_heartbeat")
-    if last_hb:
-        gap = int(time.time()) - int(last_hb)
-        if gap > 120:
-            await db.extend_all_premium(gap)
-            logger.info("⏸ Freeze recovery: extended all premiums by %ds (%.1f min offline)",
-                        gap, gap / 60)
+        last_hb = await db.get_setting("last_heartbeat")
+        if last_hb:
+            gap = int(time.time()) - int(last_hb)
+            if gap > 120:
+                await db.extend_all_premium(gap)
+                logger.info("⏸ Freeze recovery: extended all premiums by %ds (%.1f min offline)",
+                            gap, gap / 60)
 
-    await db.set_setting("last_heartbeat", str(int(time.time())))
-    asyncio.create_task(_heartbeat_loop())
-    logger.info("✅ %s v%s started", BOT_NAME, BOT_VERSION)
-
+        await db.set_setting("last_heartbeat", str(int(time.time())))
+        asyncio.create_task(_heartbeat_loop())
+        logger.info("✅ %s v%s started", BOT_NAME, BOT_VERSION)
+    except Exception as exc:
+        logger.critical("💥 post_init FAILED — bot cannot start: %s", exc, exc_info=True)
+        raise
 
 async def post_shutdown(app):
     from services.api_service import close_session
