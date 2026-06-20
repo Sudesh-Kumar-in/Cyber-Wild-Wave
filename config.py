@@ -5,7 +5,7 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 ADMIN_IDS = [int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
-DATABASE_PATH = os.getenv("DATABASE_PATH", "database/bot.db")
+DATABASE_PATH = os.getenv("DATABASE_PATH", "bot.db")
 REQUIRED_CHANNEL = os.getenv("REQUIRED_CHANNEL", "")
 CHANNEL_INVITE_LINK = os.getenv("CHANNEL_INVITE_LINK", "https://t.me/yourchannel")
 
@@ -13,14 +13,27 @@ FREE_DAILY_SEARCHES = int(os.getenv("FREE_DAILY_SEARCHES", "5"))
 RATE_LIMIT_SECONDS = int(os.getenv("RATE_LIMIT_SECONDS", "3"))
 CACHE_TTL = int(os.getenv("CACHE_TTL", "300"))
 
-API_NUMBER_LOOKUP = os.getenv("API_NUMBER_LOOKUP", "")
+# ── API endpoint URL templates ─────────────────────────────────────────────────
+# Each URL must contain a placeholder for the search term.
+# Supported placeholders: {query} {num} {mobile} {number} {q} and lookup-specific ones.
+# Example: https://api.example.com/number?num={query}&key=abc123
+#
+# API_NUMBER_LOOKUP   — mobile number lookup
+# API_TELEGRAM_LOOKUP — Telegram username/ID lookup
+# API_AADHAAR_LOOKUP  — Aadhaar number lookup
+# API_FAMILY_LOOKUP   — family/household lookup
+# API_PINCODE_LOOKUP  — PIN code (auto-falls back to postalpincode.in if blank)
+# API_IFSC_LOOKUP     — IFSC code (auto-falls back to razorpay if blank)
+# API_VEHICLE_LOOKUP  — vehicle registration lookup
+# API_KEY             — shared key sent as Authorization: Bearer and X-Api-Key headers
+API_NUMBER_LOOKUP   = os.getenv("API_NUMBER_LOOKUP", "")
 API_TELEGRAM_LOOKUP = os.getenv("API_TELEGRAM_LOOKUP", "")
-API_AADHAAR_LOOKUP = os.getenv("API_AADHAAR_LOOKUP", "")
-API_FAMILY_LOOKUP = os.getenv("API_FAMILY_LOOKUP", "")
-API_PINCODE_LOOKUP = os.getenv("API_PINCODE_LOOKUP", "")
-API_IFSC_LOOKUP = os.getenv("API_IFSC_LOOKUP", "")
-API_VEHICLE_LOOKUP = os.getenv("API_VEHICLE_LOOKUP", "")
-API_KEY = os.getenv("API_KEY", "")
+API_AADHAAR_LOOKUP  = os.getenv("API_AADHAAR_LOOKUP", "")
+API_FAMILY_LOOKUP   = os.getenv("API_FAMILY_LOOKUP", "")
+API_PINCODE_LOOKUP  = os.getenv("API_PINCODE_LOOKUP", "")
+API_IFSC_LOOKUP     = os.getenv("API_IFSC_LOOKUP", "")
+API_VEHICLE_LOOKUP  = os.getenv("API_VEHICLE_LOOKUP", "")
+API_KEY             = os.getenv("API_KEY", "")
 
 PREMIUM_PLANS = {
     "1day":    {"label": "1 Day",     "price": 49,   "days": 1},
@@ -34,7 +47,7 @@ PREMIUM_PLANS = {
     "1year":   {"label": "1 Year",    "price": 1199, "days": 365},
 }
 
-BOT_VERSION = "2.0.0"
+BOT_VERSION = "2.1.0"
 BOT_NAME = "CYBER WILD WAVE"
 
 MAINTENANCE_MODE = False
