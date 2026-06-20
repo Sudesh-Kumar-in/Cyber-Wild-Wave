@@ -1,33 +1,34 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def search_menu_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("📱 Number Lookup",   callback_data="search_number"),
-            InlineKeyboardButton("📞 Telegram Lookup", callback_data="search_telegram"),
-        ],
-        [
-            InlineKeyboardButton("🪪 Aadhaar Lookup",  callback_data="search_aadhaar"),
-            InlineKeyboardButton("👨‍👩‍👧‍👦 Family Lookup", callback_data="search_family"),
-        ],
-        [
-            InlineKeyboardButton("📍 Pincode Lookup",  callback_data="search_pincode"),
-            InlineKeyboardButton("🏦 IFSC Lookup",     callback_data="search_ifsc"),
-        ],
-        [
-            InlineKeyboardButton("🚗 Vehicle Lookup",  callback_data="search_vehicle"),
-        ],
-        [
-            InlineKeyboardButton("🔙 Back",            callback_data="menu_back"),
-        ],
-    ])
+  def search_menu_keyboard() -> InlineKeyboardMarkup:
+      return InlineKeyboardMarkup([
+          [
+              InlineKeyboardButton("📱 NUMBER LOOKUP",   callback_data="search_number"),
+              InlineKeyboardButton("📞 TELEGRAM LOOKUP", callback_data="search_telegram"),
+          ],
+          [
+              InlineKeyboardButton("🪪 AADHAAR LOOKUP",  callback_data="search_aadhaar"),
+              InlineKeyboardButton("👨‍👩‍👧‍👦 FAMILY LOOKUP", callback_data="search_family"),
+          ],
+          [
+              InlineKeyboardButton("📍 PINCODE LOOKUP",  callback_data="search_pincode"),
+              InlineKeyboardButton("🏦 IFSC LOOKUP",     callback_data="search_ifsc"),
+          ],
+          [
+              InlineKeyboardButton("🚗 VEHICLE LOOKUP",  callback_data="search_vehicle"),
+          ],
+          [
+              InlineKeyboardButton("🔙 BACK",            callback_data="menu_back"),
+          ],
+      ])
 
 
-def back_to_search_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("🔍 New Search", callback_data="menu_search"),
-            InlineKeyboardButton("🏠 Main Menu",  callback_data="menu_back"),
-        ]
-    ])
+  def back_to_search_keyboard() -> InlineKeyboardMarkup:
+      return InlineKeyboardMarkup([
+          [
+              InlineKeyboardButton("🔍 NEW SEARCH", callback_data="menu_search"),
+              InlineKeyboardButton("🏠 MAIN MENU",  callback_data="menu_back"),
+          ]
+      ])
+  
