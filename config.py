@@ -39,19 +39,19 @@ def _build_from_base(path_and_params: str) -> str:
 
 API_NUMBER_LOOKUP = (
     os.getenv("API_NUMBER_LOOKUP", "")
-    or _build_from_base(f"?num={{query}}&key={API_KEY}")
+    or _build_from_base(f"/?num={{query}}&key={API_KEY}")
 )
 API_TELEGRAM_LOOKUP = (
     os.getenv("API_TELEGRAM_LOOKUP", "")
-    or _build_from_base(f"?telegram={{query}}&key={API_KEY}")
+    or _build_from_base(f"/?telegram={{query}}&key={API_KEY}")
 )
 API_AADHAAR_LOOKUP = (
     os.getenv("API_AADHAAR_LOOKUP", "")
-    or _build_from_base(f"?aadhaar={{query}}&key={API_KEY}")
+    or _build_from_base(f"/?aadhaar={{query}}&key={API_KEY}")
 )
 API_FAMILY_LOOKUP = (
     os.getenv("API_FAMILY_LOOKUP", "")
-    or _build_from_base(f"?family={{query}}&key={API_KEY}")
+    or _build_from_base(f"/?family={{query}}&key={API_KEY}")
 )
 API_PINCODE_LOOKUP = (
     os.getenv("API_PINCODE_LOOKUP", "")
@@ -63,7 +63,7 @@ API_IFSC_LOOKUP = (
 )
 API_VEHICLE_LOOKUP = (
     os.getenv("API_VEHICLE_LOOKUP", "")
-    or _build_from_base(f"?vehicle={{query}}&key={API_KEY}")
+    or _build_from_base(f"/?vehicle={{query}}&key={API_KEY}")
 )
 
 PREMIUM_PLANS = {
