@@ -30,6 +30,7 @@ from handlers.account import account_callback
 from handlers.admin import (
     admin_command, admin_callback, handle_admin_text,
     handle_admin_panel_button, ADMIN_PANEL_BUTTONS, ADMIN_SUBMENU_BUTTONS, is_admin,
+    apistatus_command,
 )
 from handlers.payment import handle_screenshot, admin_approve_payment, admin_reject_payment
 from utils.rate_limiter import get_pending_action
@@ -119,7 +120,8 @@ async def _heartbeat_loop():
 async def post_init(app):
     await db.init_db()
 
-    from services.api_service import get_session
+    from services.api_service import get_session, log_api_config
+    log_api_config()
     await get_session()
 
     last_hb = await db.get_setting("last_heartbeat")
@@ -156,6 +158,7 @@ def main():
     # Commands
     app.add_handler(CommandHandler("start", start_handler))
     app.add_handler(CommandHandler("admin", admin_command))
+    app.add_handler(CommandHandler("apistatus", apistatus_command))
 
     # Disclaimer / channel gate
     app.add_handler(CallbackQueryHandler(disclaimer_callback,  pattern="^disclaimer_"))
