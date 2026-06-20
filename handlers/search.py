@@ -31,13 +31,13 @@ def _get_main_kb(user_id: int):
 # ── Keyboard-button → action mapping ─────────────────────────────────────────
 
 SEARCH_KB_MAP = {
-    "📱 Number Lookup":   "search_number",
-    "📞 Telegram Lookup": "search_telegram",
-    "🪪 Aadhaar Lookup":  "search_aadhaar",
-    "👨‍👩‍👧‍👦 Family Lookup":  "search_family",
-    "📍 Pincode Lookup":  "search_pincode",
-    "🏦 IFSC Lookup":     "search_ifsc",
-    "🚗 Vehicle Lookup":  "search_vehicle",
+    "📱 NUMBER LOOKUP":   "search_number",
+    "📞 TELEGRAM LOOKUP": "search_telegram",
+    "🪪 AADHAAR LOOKUP":  "search_aadhaar",
+    "👨‍👩‍👧‍👦 FAMILY LOOKUP":  "search_family",
+    "📍 PINCODE LOOKUP":  "search_pincode",
+    "🏦 IFSC LOOKUP":     "search_ifsc",
+    "🚗 VEHICLE LOOKUP":  "search_vehicle",
 }
 
 SEARCH_KB_BUTTONS = set(SEARCH_KB_MAP.keys())
